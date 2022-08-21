@@ -80,7 +80,7 @@ namespace ChernabogJailApp.Areas.Identity.Pages.Account
             message.Content = @$"Добрый день, {user.UserName}!
 
 На ваш адрес электронной почты была произведена регистрация нового аккаунта.
-Для его подтверждения, пройдите по ссылке: {EmailConfirmationUrl}
+Для его подтверждения, пройдите по <a href=""{EmailConfirmationUrl}"">ссылке</a>
 
 Если вы не регистрировались, то просто проигнорируйте сообщение.
 
