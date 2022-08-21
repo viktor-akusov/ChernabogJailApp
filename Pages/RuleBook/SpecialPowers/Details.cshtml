@@ -61,7 +61,7 @@
     </dl>
 </div>
 <div class="d-flex flex-row justify-content-left gap-2">
-    <a asp-page="./Index">
+    <a href='javascript:window.location = document.referrer'>
         <i class="btn btn-dark fa fa-arrow-left" aria-hidden="true"></i>
     </a>
     @if (User.IsInRole("Admin") || User.IsInRole("Editor"))
