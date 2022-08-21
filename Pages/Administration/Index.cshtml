@@ -1,0 +1,141 @@
+﻿@page
+@model ChernabogJailApp.Pages.Administration.IndexModel
+@{
+    ViewData["Title"] = "Администрирование";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="modal fade" id="addRoles" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Добавить роль</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <label for="userRole">Имя роли</label>
+                    <input name="userRole" type="text" class="form-text w-100" />
+                    <input name="userId" id="addUserId" type="hidden" value="" />
+                    <input name="actionType" type="hidden" value="addRole" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delRoles" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Удаление роли</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <label>Вы действительно хотите удалить эту роль?</label>
+                    <input name="userId" id="delRoleUserId" type="hidden" value="" />
+                    <input name="userRole" id="delRoleUserRole" type="hidden" value="" />
+                    <input name="actionType" type="hidden" value="delRole" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                    <button type="submit" class="btn btn-danger">Да</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delUsers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Удаление пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <label>Вы действительно хотите удалить этого пользователя?</label>
+                    <input name="userId" id="delUserId" type="hidden" value="" />
+                    <input name="actionType" type="hidden" value="delUser" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                    <button type="submit" class="btn btn-danger">Да</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="table-dark sticky-top">
+            <tr>
+                <th class="rounded-start">
+                    Имя пользователя
+                </th>
+                <th>
+                    Электронная почта
+                </th>
+                <th>
+                    Роли
+                </th>
+                <th class="rounded-end"></th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.model)
+        {
+            <tr>
+                <td>@item.UserName</td>
+                <td>@item.Email</td>
+                <td>
+                    @{
+                        var isAdmin = item.Roles.Contains("Admin");
+                    }
+                    @foreach (var role in item.Roles)
+                    {
+                        <span class="badge bg-info">
+                            @role
+                            @if (User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.ToString().Split(' ').Last() != item.Id && !isAdmin)
+                            {
+                                <a href="" class="nav-item p-1 text-white" onclick="rolesRemoveModal('@item.Id', '@role')" data-bs-toggle="modal" data-bs-target="#delRoles">
+                                    <i class="fa fa-remove"></i>
+                                </a>
+                            }
+                        </span>
+                    }
+                    @if (User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.ToString().Split(' ').Last() != item.Id && !isAdmin)
+                    {
+                        <a href="" class="nav-item fs-6 p-1" data-bs-toggle="modal" data-bs-target="#addRoles" onclick="rolesAddModal('@item.Id')"><i class="fa fa-add"></i></a>
+                    }
+                </td>
+                <td class="text-end">
+                    @if (!isAdmin)
+                    {
+                        <a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delUsers" onclick="usersRemoveModal('@item.Id')"><i class="fa fa-remove" aria-hidden="true"></i></a>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<script>
+    function rolesAddModal(id) {
+        document.getElementById("addUserId").setAttribute("value", id);
+    }
+    function rolesRemoveModal(id, role) {
+        document.getElementById("delRoleUserId").setAttribute("value", id);
+        document.getElementById("delRoleUserRole").setAttribute("value", role);
+    }
+    function usersRemoveModal(id) {
+        document.getElementById("delUserId").setAttribute("value", id);
+    }
+</script>

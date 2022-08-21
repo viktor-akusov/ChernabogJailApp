@@ -1,0 +1,156 @@
+﻿@page
+@using Newtonsoft.Json
+@model ChernabogJailApp.Pages.RuleBook.SpecialPowers.IndexModel
+
+@{
+    ViewData["Title"] = "Особые способности и заклинания";
+    Type EnumClassType = typeof(ChernabogJailApp.RuleBook.CommonEnums.EnumClass);
+    Type EnumSpheresType = typeof(ChernabogJailApp.RuleBook.CommonEnums.EnumSphere);
+    Type EnumLevelsType = typeof(ChernabogJailApp.RuleBook.CommonEnums.EnumLevel);
+}
+
+<div class="d-flex flex-column mb-5">
+    <div class="d-flex flex-row justify-content-between align-items-baseline">
+        <h1>@ViewData["Title"]</h1>
+        <div>
+            <a asp-page="/RuleBook/Index" title="Назад" class="btn btn-outline-primary" style="text-align: center;">
+                <i class="fa fa-arrow-left align-baseline" aria-hidden="true"></i>
+            </a>
+            @if (User.IsInRole("Admin") || User.IsInRole("Editor"))
+            {
+                <a asp-page="./Create" title="Добавить" class="btn btn-outline-primary" style="text-align: center;">
+                    <i class="fa fa-add align-baseline" aria-hidden="true"></i>
+                </a>
+            }
+        </div>
+    </div>
+    <form class="form d-flex flex-column" method="get">
+        <label for="searchString">Поиск по способностям:</label>
+        <div class="d-flex flex-row w-100 mb-2">
+            <input class="form-control flex-grow-1" type="search" id="searchString" name="searchString" asp-for="@Model.SearchString"/>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
+        <div class="d-flex flex-row w-100 flex-wrap">
+            <div class="flex-grow-1">
+                <label class="mb-1">Классы:</label>
+                <div class="d-flex flex-column flex-wrap" style="max-height: 4rem; min-width: 25rem;">
+                    @foreach (var charClass in Enum.GetValues(EnumClassType).Cast<ChernabogJailApp.RuleBook.CommonEnums.EnumClass>())
+                    {
+                        <div class="d-flex flex-row gap-2 align-items-baseline">
+                            @Html.CheckBox($"charClasses[\"{charClass}\"]", Model.CharClasses.ContainsKey(charClass.ToString()))
+                            <label for="@Html.DisplayFor(modelItem => charClass)">@Html.Partial("_SpecialPowerClassIcon", charClass) - @Html.DisplayFor(modelItem => charClass)</label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="flex-grow-1">
+                <label class="mb-1">Сферы:</label>
+                <div class="d-flex flex-column flex-wrap" style="max-height: 4rem; min-width: 20rem;">
+                    @foreach (var sphere in Enum.GetValues(EnumSpheresType).Cast<ChernabogJailApp.RuleBook.CommonEnums.EnumSphere>())
+                    {
+                        <div class="d-flex flex-row gap-2 align-items-baseline">
+                            @Html.CheckBox($"Spheres[\"{sphere}\"]", Model.Spheres.ContainsKey(sphere.ToString()))
+                            <label for="@Html.DisplayFor(modelItem => sphere)">@Html.DisplayFor(modelItem => sphere)</label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="flex-grow-1">
+                <label class="mb-1">Уровни:</label>
+                <div class="d-flex flex-column flex-wrap" style="max-height: 4rem; min-width: 15rem;">
+                    @foreach (var level in Enum.GetValues(EnumLevelsType).Cast<ChernabogJailApp.RuleBook.CommonEnums.EnumLevel>())
+                    {
+                        <div class="d-flex flex-row gap-2 align-items-baseline">
+                            @Html.CheckBox($"Levels[\"{level}\"]", Model.Levels.ContainsKey(level.ToString()))
+                            <label for="@Html.DisplayFor(modelItem => level)">@Html.DisplayFor(modelItem => level)</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="d-flex flex-row flex-wrap gap-5" id="grid"></div>
+
+<button onclick="topFunction()" id="upButton" title="Наверх" style="z-index: 99; position: fixed; bottom: 100px; right:100px;" class="btn btn-outline-primary">
+    <i class="fa fa-arrow-up fa-2x"></i>
+</button>
+
+<div class="d-flex flex-row justify-content-around m-5" id="loading_container">
+    <div class="spinner-border" role="status" id="loading">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+@section scripts{
+    <script defer>
+        var page = 1;
+        var loading = false;
+        var search = '';
+        $(document).ready(
+            () => {
+                search = $('#searchString').val();
+                $(scrollCheck);
+            }
+
+        )
+        $(window).scroll(scrollCheck);
+
+        function isScrolledIntoView(elem) {
+
+            var docViewTop = $(window).scrollTop();
+            var docViewBottom = docViewTop + $(window).height();
+
+            var elemTop = $(elem).offset().top;
+            var elemBottom = elemTop + $(elem).height();
+
+            return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+        }
+
+        function scrollCheck() {
+            if (!loading && $('#loading').length > 0) {
+                mybutton = document.getElementById("upButton");
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+                if (isScrolledIntoView($("#loading"))) {
+                    loading = true
+                    var url = `@Html.Raw(
+                        Url.Action(
+                            "SpecialPower", 
+                            new {
+                                handler="SpecialPowersPartial",
+                                searchString=Model.SearchString,
+                                charClasses=JsonConvert.SerializeObject(Model.CharClasses),
+                                levels=JsonConvert.SerializeObject(Model.Levels),
+                                spheres=JsonConvert.SerializeObject(Model.Spheres)
+                            }
+                        )
+                    )`
+                    fetch(url + '&pageIndex=' + page)
+                        .then((response) => {
+                            if (response.status == 404) {
+                                document.getElementById("loading_container").innerHTML = '';
+                            }
+                            return response.text();
+                        })
+                        .then((result) => {
+                            document.getElementById('grid').innerHTML += result;
+                            page += 1;
+                            loading = false;
+                            if ($('#loading').length > 0) scrollCheck();
+                        });
+                }
+            }
+
+        }
+
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+}

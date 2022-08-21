@@ -1,0 +1,60 @@
+﻿@model ChernabogJailApp.Pages.RuleBook.SpecialPowers.IndexModel
+
+@foreach (var item in Model.SpecialPower)
+{
+    <div class="d-flex flex-column" style="max-width: 18rem; min-height: 15rem">
+        <div class="mb-2">
+            <h5 class="card-title p-2 d-flex flex-row justify-content-between" style="min-height: 4rem;">
+                @(await Html.PartialAsync("_SpecialPowerClassIcon", item.Class))
+                <span style="text-align: right;">@Html.DisplayFor(modelItem => item.Name)</span>
+            </h5>
+            <hr>
+            @if (item.Level is not null)
+            {
+                <div class="d-flex flex-row align-items-baseline">
+                    <p class="text-sm-start p-1 m-0">Уровень:</p>
+                    <p class="text-sm-start p-1 flex-grow-1 m-0">
+                        @Html.DisplayFor(modelItem => item.Level)
+
+                    </p>
+                </div>
+            }
+            @if (item.Sphere is not null)
+            {
+                <div class="d-flex flex-row align-items-baseline">
+                    <p class="text-sm-start p-1 m-0">Сфера:</p>
+                    <p class="text-sm-start p-1 flex-grow-1 m-0">
+                        @Html.DisplayFor(modelItem => item.Sphere)
+                    </p>
+                </div>
+            }
+            @if (item.Points > 0)
+            {
+                <div class="d-flex flex-row align-items-baseline">
+                    <p class="text-sm-start p-1 m-0">Очки:</p>
+                    <p class="text-sm-start p-1 flex-grow-1 m-0">
+                        @Html.DisplayFor(modelItem => item.Points)
+                    </p>
+                </div>
+            }
+        </div>
+        <p class="card-text p-2" style="min-height: 10rem;">
+            @item.Description.ToString().Substring(0,127-item.Name.Length)
+            <br>
+            <a asp-page="./Details" asp-route-id="@item.Id" title="Подробнее" class="flex-grow-1">Подробнее...</a>
+        </p>
+        <div class="d-flex flex-column justify-content-end h-100">
+            <div class="d-flex flex-row">
+                @if (User.IsInRole("Admin") || User.IsInRole("Editor"))
+                {
+                    <a asp-page="./Edit" asp-route-id="@item.Id" title="Редактировать" class="btn btn-sm btn-dark flex-grow-1">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                    </a>
+                    <a asp-page="./Delete" asp-route-id="@item.Id" title="Удалить" class="btn btn-sm btn-danger flex-grow-1">
+                        <i class="fa fa-remove" aria-hidden="true"></i>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+}

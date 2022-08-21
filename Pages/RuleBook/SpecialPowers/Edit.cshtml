@@ -1,0 +1,65 @@
+﻿@page
+@model ChernabogJailApp.Pages.RuleBook.SpecialPowers.EditModel
+
+@{
+    ViewData["Title"] = $"Редактировать особую способность \"{Model.SpecialPower.Name}\"";
+}
+
+<h1>Редактировать особую способность</h1>
+
+<h4 class="d-flex flex-row gap-3">
+    @(await Html.PartialAsync("_SpecialPowerClassIcon",Model.SpecialPower.Class))
+    <span style="text-align: right;">@Html.DisplayFor(modelItem => Model.SpecialPower.Name)</span>
+</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SpecialPower.Id" />
+<div class="form-group">
+                <label asp-for="SpecialPower.Name" class="control-label"></label>
+                <input asp-for="SpecialPower.Name" class="form-control" />
+                <span asp-validation-for="SpecialPower.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecialPower.Class" class="control-label"></label>
+                @Html.DropDownList("SpecialPower.Class", Html.GetEnumSelectList(Model.TypeOfEnumClass), "", new {@class = "form-control"})
+                <span asp-validation-for="SpecialPower.Class" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecialPower.Level" class="control-label"></label>
+                @Html.DropDownList("SpecialPower.Level", Html.GetEnumSelectList(Model.TypeOfEnumLevel), "", new {@class = "form-control"})
+                <span asp-validation-for="SpecialPower.Level" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecialPower.Sphere" class="control-label"></label>
+                @Html.DropDownList("SpecialPower.Sphere", Html.GetEnumSelectList(Model.TypeOfEnumSphere), "", new {@class = "form-control"})
+                <span asp-validation-for="SpecialPower.Sphere" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecialPower.Time" class="control-label"></label>
+                @Html.DropDownList("SpecialPower.Time", Html.GetEnumSelectList(Model.TypeOfEnumTime), "", new {@class = "form-control"})
+                <span asp-validation-for="SpecialPower.Time" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecialPower.Points" class="control-label"></label>
+                <input asp-for="SpecialPower.Points" class="form-control" />
+                <span asp-validation-for="SpecialPower.Points" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecialPower.Description" class="control-label"></label>
+                <textarea asp-for="SpecialPower.Description" class="form-control"></textarea>
+                <span asp-validation-for="SpecialPower.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex flex-row justify-content-between pt-2">
+                <a asp-page="./Index" class="align-self-baseline"><i class="btn btn-dark fa fa-arrow-left rounded-start" aria-hidden="true"></i></a>
+                <input type="submit" value="Сохранить" class="btn btn-primary align-self-baseline" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
