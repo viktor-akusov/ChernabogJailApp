@@ -22,4 +22,7 @@ public class ChernabogJailAppContext : IdentityDbContext<ChernabogJailAppUser>
     }
 
     public DbSet<ChernabogJailApp.Models.SpecialPower>? SpecialPower { get; set; }
+
+    public DbSet<ChernabogJailApp.Models.Weapon>? Weapon { get; set; }
+    public DbSet<ChernabogJailApp.Models.Armor>? Armor { get; set; }
 }
