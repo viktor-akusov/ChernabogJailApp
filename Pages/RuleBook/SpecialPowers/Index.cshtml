@@ -30,10 +30,10 @@
             <input class="form-control flex-grow-1" type="search" id="searchString" name="searchString" asp-for="@Model.SearchString"/>
             <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
         </div>
-        <div class="d-flex flex-row w-100 flex-wrap">
+        <div class="d-flex flex-row w-100 flex-wrap filters">
             <div class="flex-grow-1">
                 <label class="mb-1">Классы:</label>
-                <div class="d-flex flex-column flex-wrap" style="max-height: 4rem; min-width: 25rem;">
+                <div class="d-flex flex-column flex-wrap filter">
                     @foreach (var charClass in Enum.GetValues(EnumClassType).Cast<ChernabogJailApp.RuleBook.CommonEnums.EnumClass>())
                     {
                         <div class="d-flex flex-row gap-2 align-items-baseline">
@@ -45,7 +45,7 @@
             </div>
             <div class="flex-grow-1">
                 <label class="mb-1">Сферы:</label>
-                <div class="d-flex flex-column flex-wrap" style="max-height: 4rem; min-width: 20rem;">
+                <div class="d-flex flex-column flex-wrap filter">
                     @foreach (var sphere in Enum.GetValues(EnumSpheresType).Cast<ChernabogJailApp.RuleBook.CommonEnums.EnumSphere>())
                     {
                         <div class="d-flex flex-row gap-2 align-items-baseline">
@@ -57,7 +57,7 @@
             </div>
             <div class="flex-grow-1">
                 <label class="mb-1">Уровни:</label>
-                <div class="d-flex flex-column flex-wrap" style="max-height: 4rem; min-width: 15rem;">
+                <div class="d-flex flex-column flex-wrap filter">
                     @foreach (var level in Enum.GetValues(EnumLevelsType).Cast<ChernabogJailApp.RuleBook.CommonEnums.EnumLevel>())
                     {
                         <div class="d-flex flex-row gap-2 align-items-baseline">
@@ -73,7 +73,7 @@
 
 <div class="d-flex flex-row flex-wrap gap-5" id="grid"></div>
 
-<button onclick="topFunction()" id="upButton" title="Наверх" style="z-index: 99; position: fixed; bottom: 100px; right:100px;" class="btn btn-outline-primary">
+<button onclick="topFunction()" id="upButton" title="Наверх" style="z-index: 99; position: fixed; bottom: 100px; right:3vw;" class="btn btn-outline-primary">
     <i class="fa fa-arrow-up fa-2x"></i>
 </button>
 
@@ -153,4 +153,33 @@
             document.documentElement.scrollTop = 0;
         }
     </script>
+}
+
+@section styles {
+    <style>
+        .item {
+            max-width: 16rem;
+            min-height: 15rem
+        }
+        .filter {
+            max-height: 4rem; 
+            min-width: 25rem
+        }
+        @@media only screen and (max-width: 768px) {
+
+            .item {
+                max-width: unset;
+                min-height: unset;
+                width:100%;
+            }
+            #upButton {
+                display:none;
+                visibility: hidden;
+            }
+            .filter {
+                max-height: unset;
+                min-width: unset;
+            }
+        }
+    </style>
 }

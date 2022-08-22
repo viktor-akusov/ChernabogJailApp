@@ -2,7 +2,7 @@
 
 @foreach (var item in Model.SpecialPower)
 {
-    <div class="d-flex flex-column" style="max-width: 18rem; min-height: 15rem">
+    <div class="d-flex flex-column item">
         <div class="mb-2">
             <h5 class="card-title p-2 d-flex flex-row justify-content-between" style="min-height: 4rem;">
                 @(await Html.PartialAsync("_SpecialPowerClassIcon", item.Class))
