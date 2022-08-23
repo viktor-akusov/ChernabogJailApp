@@ -25,4 +25,5 @@ public class ChernabogJailAppContext : IdentityDbContext<ChernabogJailAppUser>
 
     public DbSet<ChernabogJailApp.Models.Weapon>? Weapon { get; set; }
     public DbSet<ChernabogJailApp.Models.Armor>? Armor { get; set; }
+    public DbSet<ChernabogJailApp.Models.Equipment>? Equipment { get; set; }
 }

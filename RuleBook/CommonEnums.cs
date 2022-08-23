@@ -4,52 +4,6 @@ namespace ChernabogJailApp.RuleBook
 {
     public class CommonEnums
     {
-        public enum EnumAttributes
-        {
-            [Display(Name = "Сила")]
-            Strength,
-            [Display(Name = "Ловкость")]
-            Dexterity,
-            [Display(Name = "Телосложение")]
-            Constitution,
-            [Display(Name = "Мудрость")]
-            Wisdom,
-            [Display(Name = "Интеллект")]
-            Intellegence,
-            [Display(Name = "Харизма")]
-            Charisma
-        }
-
-        public enum EnumArmorType
-        {
-            [Display(Name = "Легкая")]
-            Light,
-            [Display(Name = "Средняя")]
-            Medium,
-            [Display(Name = "Тяжелая")]
-            Heavy,
-            [Display(Name = "Элитна")]
-            Elite,
-            [Display(Name = "Щит")]
-            Shield
-        }
-        public enum EnumWeaponType
-        {
-            [Display(Name = "Легкое")]
-            Light,
-            [Display(Name = "Среднее")]
-            Medium,
-            [Display(Name = "Тяжелое")]
-            Heavy,
-            [Display(Name = "Дальнее I")]
-            LongRangeOne,
-            [Display(Name = "Дальнее II")]
-            LongRangeTwo,
-            [Display(Name = "Гранаты")]
-            Bombs,
-            [Display(Name = "Боеприпасы")]
-            Ammunition
-        }
         public enum EnumLevel
         {
             [Display(Name = "Младший")]
