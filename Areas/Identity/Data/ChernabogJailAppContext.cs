@@ -23,7 +23,9 @@ public class ChernabogJailAppContext : IdentityDbContext<ChernabogJailAppUser>
 
     public DbSet<ChernabogJailApp.Models.SpecialPower>? SpecialPower { get; set; }
 
-    public DbSet<ChernabogJailApp.Models.Weapon>? Weapon { get; set; }
-    public DbSet<ChernabogJailApp.Models.Armor>? Armor { get; set; }
-    public DbSet<ChernabogJailApp.Models.Equipment>? Equipment { get; set; }
+    public DbSet<ChernabogJailApp.Models.BeastCategory>? BeastCategory { get; set; }
+
+    public DbSet<ChernabogJailApp.Models.Beast>? Beast { get; set; }
+
+    public DbSet<ChernabogJailApp.Models.BeastVariation>? BeastVariation { get; set; }
 }

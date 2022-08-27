@@ -3,6 +3,7 @@ using System;
 using ChernabogJailApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ChernabogJailApp.Migrations
 {
     [DbContext(typeof(ChernabogJailAppContext))]
-    partial class ChernabogJailAppContextModelSnapshot : ModelSnapshot
+    [Migration("20220824200607_BeastCategories")]
+    partial class BeastCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,32 +88,6 @@ namespace ChernabogJailApp.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("ChernabogJailApp.Models.Beast", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("BeastCategoryId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BeastCategoryId");
-
-                    b.ToTable("Beast");
-                });
-
             modelBuilder.Entity("ChernabogJailApp.Models.BeastCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -131,62 +107,6 @@ namespace ChernabogJailApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BeastCategory");
-                });
-
-            modelBuilder.Entity("ChernabogJailApp.Models.BeastVariation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ArmorClass")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Attack")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("BattleSpirit")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("BeastId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Damage")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Fly")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("HitDice")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Movement")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<int>("SaveRoll")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Skill")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Swim")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Teleport")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BeastId");
-
-                    b.ToTable("BeastVariation");
                 });
 
             modelBuilder.Entity("ChernabogJailApp.Models.SpecialPower", b =>
@@ -360,26 +280,6 @@ namespace ChernabogJailApp.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("ChernabogJailApp.Models.Beast", b =>
-                {
-                    b.HasOne("ChernabogJailApp.Models.BeastCategory", "BeastCategory")
-                        .WithMany()
-                        .HasForeignKey("BeastCategoryId");
-
-                    b.Navigation("BeastCategory");
-                });
-
-            modelBuilder.Entity("ChernabogJailApp.Models.BeastVariation", b =>
-                {
-                    b.HasOne("ChernabogJailApp.Models.Beast", "Beast")
-                        .WithMany()
-                        .HasForeignKey("BeastId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Beast");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

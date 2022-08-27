@@ -1,0 +1,163 @@
+﻿@page
+@using Newtonsoft.Json
+@model ChernabogJailApp.Pages.RuleBook.Beasts.IndexModel
+
+@{
+    ViewData["Title"] = "Бестиарий";
+}
+
+<div class="d-flex flex-column mb-5">
+    <div class="d-flex flex-row justify-content-between align-items-baseline">
+        <h1>@ViewData["Title"]</h1>
+        <div>
+            <a asp-page="/RuleBook/Index" title="Назад" class="btn btn-outline-primary" style="text-align: center;">
+                <i class="fa fa-arrow-left align-baseline" aria-hidden="true"></i>
+            </a>
+            @if (User.IsInRole("Admin") || User.IsInRole("Editor"))
+            {
+                <a asp-page="/RuleBook/Beasts/Categories/Index" title="Редактировать категории" class="btn btn-outline-primary" style="text-align: center;">
+                    <i class="fa fa-pencil align-baseline" aria-hidden="true"></i>&nbsp; Редактировать категории
+                </a>
+                <a asp-page="./Create" title="Добавить" class="btn btn-outline-primary" style="text-align: center;">
+                    <i class="fa fa-add align-baseline" aria-hidden="true"></i>
+                </a>
+            }
+        </div>
+    </div>
+    <form class="form d-flex flex-column" method="get">
+        <label for="searchString">Поиск по существам:</label>
+        <div class="d-flex flex-row w-100 mb-2">
+            <input class="form-control flex-grow-1" type="search" id="searchString" name="searchString" asp-for="@Model.SearchString" />
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
+        <div class="d-flex flex-row w-100 flex-wrap filters">
+            <div class="flex-grow-1">
+                <label class="mb-1">Категории:</label>
+                <div class="d-flex flex-column flex-wrap filter">
+                    @foreach (var beastCategory in Model.BeastCategory)
+                    {
+                        <div class="d-flex flex-row gap-2 align-items-baseline">
+                            @Html.CheckBox($"beastCategories[{beastCategory.Id}]", Model.BeastCategories.ContainsKey(beastCategory.Id))
+                            <label>@Html.DisplayFor(modelItem => beastCategory.Name)</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="d-flex flex-row flex-wrap gap-5" id="grid"></div>
+
+<button onclick="topFunction()" id="upButton" title="Наверх" style="z-index: 99; position: fixed; bottom: 100px; right:3vw;" class="btn btn-outline-primary">
+    <i class="fa fa-arrow-up fa-2x"></i>
+</button>
+
+<div class="d-flex flex-row justify-content-around m-5" id="loading_container">
+    <div class="spinner-border" role="status" id="loading">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+@section scripts{
+    <script defer>
+        var page = 1;
+        var loading = false;
+        var search = '';
+        $(document).ready(
+            () => {
+                search = $('#searchString').val();
+                $(scrollCheck);
+            }
+
+        )
+        $(window).scroll(scrollCheck);
+
+        function isScrolledIntoView(elem) {
+
+            var docViewTop = $(window).scrollTop();
+            var docViewBottom = docViewTop + $(window).height();
+
+            var elemTop = $(elem).offset().top;
+            var elemBottom = elemTop + $(elem).height();
+
+            return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+        }
+
+        function scrollCheck() {
+            if (!loading && $('#loading').length > 0) {
+                mybutton = document.getElementById("upButton");
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+                if (isScrolledIntoView($("#loading"))) {
+                    loading = true
+                    var url = `@Html.Raw(
+                                    Url.Action(
+                                        "Beasts",
+                                        new {
+                                            handler="BeastsPartial",
+                                            searchString=Model.SearchString,
+                                            beastCategories=JsonConvert.SerializeObject(Model.BeastCategories)
+                                        }
+                                    )
+                                )`
+                    fetch(url + '&pageIndex=' + page)
+                        .then((response) => {
+                            if (response.status == 404) {
+                                document.getElementById("loading_container").innerHTML = '';
+                            }
+                            return response.text();
+                        })
+                        .then((result) => {
+                            document.getElementById('grid').innerHTML += result;
+                            page += 1;
+                            loading = false;
+                            if ($('#loading').length > 0) scrollCheck();
+                        });
+                }
+            }
+
+        }
+
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+}
+
+    @section styles {
+    <style>
+        .item {
+            max-width: 16rem;
+            min-height: 15rem
+        }
+
+        .filter {
+            max-height: 4rem;
+            min-width: 25rem
+        }
+
+        @@media only screen and (max-width: 768px) {
+
+            .item {
+                max-width: unset;
+                min-height: unset;
+                width: 100%;
+            }
+
+            #upButton {
+                display: none;
+                visibility: hidden;
+            }
+
+            .filter {
+                max-height: unset;
+                min-width: unset;
+            }
+        }
+    </style>
+}

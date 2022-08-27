@@ -1,0 +1,39 @@
+﻿@page
+@model ChernabogJailApp.Pages.RuleBook.Beasts.DeleteModel
+
+@{
+    ViewData["Title"] = $"Удалить существо \"{Model.Beast.Name}\"";
+} 
+
+<h3>Вы действительно хотите удалить категорию существ?</h3>
+<div>
+    <h4 class="d-flex flex-row gap-3">
+        <span style="text-align: right;">@Html.DisplayFor(modelItem => Model.Beast.Name)</span>
+    </h4>
+    <hr />
+    <dl class="row">
+        @if (Model.Beast.BeastCategory is not null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Beast.BeastCategory)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Beast.BeastCategory.Name)
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Beast.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Beast.Description)
+        </dd>
+    </dl>
+    
+    <form method="post" class="d-flex flex-row justify-content-between">
+        <input type="hidden" asp-for="Beast.Id" />
+        <a href='javascript:window.location = document.referrer'>
+            <i class="btn btn-dark fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+        <input type="submit" value="Удалить" class="btn btn-danger rounded-end" />
+    </form>
+</div>

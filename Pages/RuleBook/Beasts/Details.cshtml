@@ -1,0 +1,41 @@
+﻿@page
+@model ChernabogJailApp.Pages.RuleBook.Beasts.DetailsModel
+
+@{
+    ViewData["Title"] = $"Существо \"{Model.Beast.Name}\"";
+}
+
+<div>
+    <h1 class="d-flex flex-row gap-3">
+        <span style="text-align: right;">@Html.DisplayFor(modelItem => Model.Beast.Name)</span>
+    </h1>
+    <hr />
+    <dl class="row">
+        @if (Model.Beast.BeastCategory is not null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Beast.BeastCategory)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Beast.BeastCategory.Name)
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Beast.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Beast.Description)
+        </dd>
+    </dl>
+</div>
+<div class="d-flex flex-row justify-content-left gap-2">
+    <a href='javascript:window.location = document.referrer'>
+        <i class="btn btn-dark fa fa-arrow-left" aria-hidden="true"></i>
+    </a>
+    @if (User.IsInRole("Admin") || User.IsInRole("Editor"))
+    {
+        <a asp-page="./Edit" asp-route-id="@Model.Beast?.Id">
+            <i class="btn btn-dark fa fa-edit" aria-hidden="true"></i>
+        </a>
+    }
+</div>

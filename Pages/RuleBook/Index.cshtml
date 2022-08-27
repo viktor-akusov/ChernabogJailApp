@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Книга правил";
 }
-<div class="card text-center">
+<div class="card text-center mb-5">
     <div class="card-header">
         Для игроков
     </div>
@@ -11,5 +11,16 @@
         <h5 class="card-title">Особые способности и заклинания</h5>
         <p class="card-text">Жреческие молитвы, колдовские заклинания, трансформации и другие невероятные способности героев.</p>
         <a asp-page="/RuleBook/SpecialPowers/Index" class="btn btn-primary">Читать</a>
+    </div>
+</div>
+
+<div class="card text-center mb-5">
+    <div class="card-header">
+        Для ведущего
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Бестиарий</h5>
+        <p class="card-text">Разумные народы, легендарные существа и беспощадные чудовища Бездны собраны в одном месте. С кем сегодня сразятся ваши игроки?</p>
+        <a asp-page="/RuleBook/Beasts/Index" class="btn btn-primary">Читать</a>
     </div>
 </div>

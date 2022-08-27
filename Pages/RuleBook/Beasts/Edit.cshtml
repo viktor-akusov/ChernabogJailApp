@@ -1,0 +1,48 @@
+﻿@page
+@model ChernabogJailApp.Pages.RuleBook.Beasts.EditModel
+
+@{
+    ViewData["Title"] = $"Редактировать категорию \"{Model.Beast.Name}\"";
+}
+
+<h1>Редактировать существо</h1>
+
+<h4 class="d-flex flex-row gap-3">
+    <span style="text-align: right;">@Html.DisplayFor(modelItem => Model.Beast.Name)</span>
+</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Beast.Id" />
+            <div class="form-group">
+                <label asp-for="Beast.BeastCategoryId" class="control-label"></label>
+                <select asp-for="Beast.BeastCategoryId" class="form-control" asp-items="ViewBag.BeastCategoryId">
+                    <option value="">Нет категории</option>
+                </select>
+                <span asp-validation-for="Beast.BeastCategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Beast.Name" class="control-label"></label>
+                <input asp-for="Beast.Name" class="form-control" />
+                <span asp-validation-for="Beast.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Beast.Description" class="control-label"></label>
+                <textarea asp-for="Beast.Description" class="form-control"></textarea>
+                <span asp-validation-for="Beast.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex flex-row justify-content-between pt-2 align-content-stretch">
+                <a href='javascript:window.location = document.referrer'>
+                    <i class="btn btn-dark fa fa-arrow-left" aria-hidden="true"></i>
+                </a>
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
