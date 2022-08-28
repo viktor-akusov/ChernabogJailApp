@@ -19,7 +19,8 @@ namespace ChernabogJailApp.Pages.RuleBook.Beasts
             _context = context;
         }
 
-      public Beast Beast { get; set; } = default!; 
+        public Beast Beast { get; set; } = default!;
+        public IList<BeastVariation> BeastVariation { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,6 +30,7 @@ namespace ChernabogJailApp.Pages.RuleBook.Beasts
             }
 
             var beast = await _context.Beast.Include(m => m.BeastCategory).FirstOrDefaultAsync(m => m.Id == id);
+
             if (beast == null)
             {
                 return NotFound();
@@ -36,6 +38,7 @@ namespace ChernabogJailApp.Pages.RuleBook.Beasts
             else 
             {
                 Beast = beast;
+                BeastVariation = await _context.BeastVariation.Where(v => v.BeastId == beast.Id).ToListAsync();
             }
             return Page();
         }

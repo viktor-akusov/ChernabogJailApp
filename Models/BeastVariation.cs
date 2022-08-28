@@ -10,12 +10,13 @@ namespace ChernabogJailApp.Models
         [DisplayName("Название")]
         public string? Name { get; set; }
         [Required]
+        [DisplayName("Существо")]
         public int BeastId { get; set; }
         [Required]
         [DisplayName("Существо")]
         public Beast Beast { get; set; }
         [Required]
-        [DisplayName("Кость урона")]
+        [DisplayName("Кость здоровья")]
         public int HitDice { get; set; }
         [Required]
         [DisplayName("Класс брони")]

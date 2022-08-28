@@ -9,24 +9,100 @@
     <h1 class="d-flex flex-row gap-3">
         <span style="text-align: right;">@Html.DisplayFor(modelItem => Model.Beast.Name)</span>
     </h1>
+    @if (Model.Beast.BeastCategory is not null)
+    {
+        <h4 style="font-style: italic">@Html.DisplayFor(model => model.Beast.BeastCategory.Name)</h4>
+    }
     <hr />
-    <dl class="row">
-        @if (Model.Beast.BeastCategory is not null)
-        {
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Beast.BeastCategory)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Beast.BeastCategory.Name)
-            </dd>
-        }
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Beast.Description)
-        </dt>
-        <dd class="col-sm-10">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BeastVariation[0].Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BeastVariation[0].HitDice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BeastVariation[0].ArmorClass)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BeastVariation[0].Attack)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BeastVariation[0].Damage)
+                    </th>
+                    <th>
+                        Перемещение
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BeastVariation[0].BattleSpirit)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BeastVariation[0].SaveRoll)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BeastVariation[0].Skill)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.BeastVariation)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HitDice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ArmorClass)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Attack)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Damage)
+                        </td>
+                        <td>
+                            @if (item.Movement > 0)
+                            {
+                                <span>Движение: @Html.DisplayFor(modelItem => item.Movement)</span>
+                                <br />
+                            }
+                            @if (item.Swim > 0)
+                            {
+                                <span>Вплавь: @Html.DisplayFor(modelItem => item.Swim)</span>
+                                <br />
+                            }
+                            @if (item.Fly > 0)
+                            {
+                                <span>Полет: @Html.DisplayFor(modelItem => item.Fly)</span>
+                                <br />
+                            }
+                            @if (item.Teleport > 0)
+                            {
+                                <span>Телепортация: @Html.DisplayFor(modelItem => item.Teleport)</span>
+                                <br />
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BattleSpirit)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SaveRoll)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Skill)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="mb-2">
             @Html.DisplayFor(model => model.Beast.Description)
-        </dd>
-    </dl>
+        </div>
 </div>
 <div class="d-flex flex-row justify-content-left gap-2">
     <a href='javascript:window.location = document.referrer'>

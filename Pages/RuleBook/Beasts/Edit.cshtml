@@ -11,7 +11,7 @@
     <span style="text-align: right;">@Html.DisplayFor(modelItem => Model.Beast.Name)</span>
 </h4>
 <hr />
-<div class="row">
+<div class="d-flex flex-row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -34,12 +34,17 @@
                 <span asp-validation-for="Beast.Description" class="text-danger"></span>
             </div>
             <div class="form-group d-flex flex-row justify-content-between pt-2 align-content-stretch">
-                <a href='javascript:window.location = document.referrer'>
+                <a asp-page="/RuleBook/Beasts/Index">
                     <i class="btn btn-dark fa fa-arrow-left" aria-hidden="true"></i>
                 </a>
                 <input type="submit" value="Сохранить" class="btn btn-primary" />
             </div>
         </form>
+    </div>
+    <div>
+        <a href='/RuleBook/Beasts/Variations?id=@Model.Beast.Id'>
+            <i class="btn btn-dark fa fa-pencil" aria-hidden="true"></i>
+        </a>
     </div>
 </div>
 

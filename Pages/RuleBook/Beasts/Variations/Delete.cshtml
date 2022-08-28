@@ -1,0 +1,90 @@
+﻿@page
+@model ChernabogJailApp.Pages.RuleBook.Beasts.Variations.DeleteModel
+
+@{
+    ViewData["Title"] = $"Удалить вариацию существа \"{Model.Beast.Name}\"";
+}
+
+<h3>Вы действительно хотите удалить вариацию существа "@Model.Beast.Name"?</h3>
+<div>
+    <h4 class="d-flex flex-row gap-3">
+        <span style="text-align: right;">@Html.DisplayFor(modelItem => Model.BeastVariation.Name)</span>
+    </h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeastVariation.HitDice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeastVariation.HitDice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeastVariation.ArmorClass)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeastVariation.ArmorClass)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeastVariation.Attack)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeastVariation.Attack)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeastVariation.Damage)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeastVariation.Damage)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeastVariation.Movement)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeastVariation.Movement)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeastVariation.Fly)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeastVariation.Fly)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeastVariation.Swim)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeastVariation.Swim)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeastVariation.Teleport)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeastVariation.Teleport)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeastVariation.BattleSpirit)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeastVariation.BattleSpirit)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeastVariation.SaveRoll)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeastVariation.SaveRoll)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeastVariation.Skill)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeastVariation.Skill)
+        </dd>
+    </dl>
+    
+    <form method="post" class="d-flex flex-row justify-content-between">
+        <input type="hidden" asp-for="BeastVariation.Id" />
+        <a asp-page='./Index' asp-route-id="@Model.Beast.Id">
+            <i class="btn btn-dark fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+        <input type="submit" value="Удалить" class="btn btn-danger rounded-end" />
+    </form>
+</div>

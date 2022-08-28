@@ -7,12 +7,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ChernabogJailApp.Data;
 using ChernabogJailApp.Models;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
 
-namespace ChernabogJailApp.Pages.RuleBook.Beasts
+namespace ChernabogJailApp.Pages.RuleBook.Beasts.Variations
 {
-    [Authorize(Roles = "Admin, Editor")]
     public class CreateModel : PageModel
     {
         private readonly ChernabogJailApp.Data.ChernabogJailAppContext _context;
@@ -22,34 +19,23 @@ namespace ChernabogJailApp.Pages.RuleBook.Beasts
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int id)
         {
-            ViewData["BeastCategoryId"] = new SelectList(_context.BeastCategory, "Id", "Name");
+            Beast = _context.Beast.Where(b => b.Id == id).FirstOrDefault();
             return Page();
         }
 
         [BindProperty]
-        public Beast Beast { get; set; } = default!;
-        [BindProperty]
         public BeastVariation BeastVariation { get; set; } = default!;
-
+        public Beast Beast { get; set; }
+        
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Beast == null || Beast == null)
-            {
-                return Page();
-            }
-
-            _context.Beast.Add(Beast);
-            if (_context.BeastVariation != null && BeastVariation != null)
-            {
-                _context.BeastVariation.Add(BeastVariation);
-            }
+            _context.BeastVariation.Add(BeastVariation);
             await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Redirect(Url.Page("/RuleBook/Beasts/Variations/Index", new { id = BeastVariation.BeastId }));
         }
     }
 }

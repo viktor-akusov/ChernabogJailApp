@@ -1,0 +1,90 @@
+﻿@page
+@model ChernabogJailApp.Pages.RuleBook.Beasts.Variations.CreateModel
+
+@{
+    ViewData["Title"] = $"Добавить новую вариацию существа \"{Model.Beast.Name}\"";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.Name" class="control-label"></label>
+                <input asp-for="BeastVariation.Name" class="form-control" />
+                <span asp-validation-for="BeastVariation.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="BeastVariation.BeastId" class="form-control" value="@Model.Beast.Id" />
+                <span asp-validation-for="BeastVariation.BeastId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.HitDice" class="control-label"></label>
+                <input asp-for="BeastVariation.HitDice" class="form-control" />
+                <span asp-validation-for="BeastVariation.HitDice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.ArmorClass" class="control-label"></label>
+                <input asp-for="BeastVariation.ArmorClass" class="form-control" />
+                <span asp-validation-for="BeastVariation.ArmorClass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.Attack" class="control-label"></label>
+                <input asp-for="BeastVariation.Attack" class="form-control" />
+                <span asp-validation-for="BeastVariation.Attack" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.Damage" class="control-label"></label>
+                <input asp-for="BeastVariation.Damage" class="form-control" />
+                <span asp-validation-for="BeastVariation.Damage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.Movement" class="control-label"></label>
+                <input asp-for="BeastVariation.Movement" class="form-control" />
+                <span asp-validation-for="BeastVariation.Movement" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.Fly" class="control-label"></label>
+                <input asp-for="BeastVariation.Fly" class="form-control" />
+                <span asp-validation-for="BeastVariation.Fly" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.Swim" class="control-label"></label>
+                <input asp-for="BeastVariation.Swim" class="form-control" />
+                <span asp-validation-for="BeastVariation.Swim" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.Teleport" class="control-label"></label>
+                <input asp-for="BeastVariation.Teleport" class="form-control" />
+                <span asp-validation-for="BeastVariation.Teleport" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.BattleSpirit" class="control-label"></label>
+                <input asp-for="BeastVariation.BattleSpirit" class="form-control" />
+                <span asp-validation-for="BeastVariation.BattleSpirit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.SaveRoll" class="control-label"></label>
+                <input asp-for="BeastVariation.SaveRoll" class="form-control" />
+                <span asp-validation-for="BeastVariation.SaveRoll" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeastVariation.Skill" class="control-label"></label>
+                <input asp-for="BeastVariation.Skill" class="form-control" />
+                <span asp-validation-for="BeastVariation.Skill" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex flex-row justify-content-between pt-2 align-content-stretch">
+                <a asp-page='./Index' asp-route-id="@Model.Beast.Id">
+                    <i class="btn btn-dark fa fa-arrow-left" aria-hidden="true"></i>
+                </a>
+                <input type="submit" value="Добавить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
