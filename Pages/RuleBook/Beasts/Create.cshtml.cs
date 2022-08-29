@@ -30,8 +30,6 @@ namespace ChernabogJailApp.Pages.RuleBook.Beasts
 
         [BindProperty]
         public Beast Beast { get; set; } = default!;
-        [BindProperty]
-        public BeastVariation BeastVariation { get; set; } = default!;
 
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
@@ -43,10 +41,7 @@ namespace ChernabogJailApp.Pages.RuleBook.Beasts
             }
 
             _context.Beast.Add(Beast);
-            if (_context.BeastVariation != null && BeastVariation != null)
-            {
-                _context.BeastVariation.Add(BeastVariation);
-            }
+
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
