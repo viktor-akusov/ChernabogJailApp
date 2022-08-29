@@ -22,6 +22,8 @@ namespace ChernabogJailApp.Pages.RuleBook.Beasts
         public Beast Beast { get; set; } = default!;
         public IList<BeastVariation> BeastVariation { get; set; } = default!;
 
+        public bool ShowName { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Beast == null)
@@ -39,6 +41,8 @@ namespace ChernabogJailApp.Pages.RuleBook.Beasts
             {
                 Beast = beast;
                 BeastVariation = await _context.BeastVariation.Where(v => v.BeastId == beast.Id).ToListAsync();
+                ShowName = BeastVariation[0].Name != null;
+
             }
             return Page();
         }

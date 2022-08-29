@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ChernabogJailApp.Data;
 using ChernabogJailApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ChernabogJailApp.Pages.RuleBook.Beasts.Variations
 {
+    [Authorize(Roles = "Admin, Editor")]
     public class CreateModel : PageModel
     {
         private readonly ChernabogJailApp.Data.ChernabogJailAppContext _context;

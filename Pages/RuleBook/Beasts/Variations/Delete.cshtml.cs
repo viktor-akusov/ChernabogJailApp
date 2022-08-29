@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ChernabogJailApp.Data;
 using ChernabogJailApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ChernabogJailApp.Pages.RuleBook.Beasts.Variations
 {
+    [Authorize(Roles = "Admin, Editor")]
     public class DeleteModel : PageModel
     {
         private readonly ChernabogJailApp.Data.ChernabogJailAppContext _context;
@@ -39,7 +42,7 @@ namespace ChernabogJailApp.Pages.RuleBook.Beasts.Variations
             else 
             {
                 BeastVariation = beastvariation;
-                Beast = _context.Beast.Where(b => b.Id == id).FirstOrDefault();
+                Beast = _context.Beast.Where(b => b.Id == beastvariation.BeastId).FirstOrDefault();
             }
             return Page();
         }

@@ -24,9 +24,11 @@
         <table class="table table-hover">
             <thead class="table-dark">
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BeastVariation[0].Name)
-                    </th>
+                    @if(Model.ShowName){
+                        <th>
+                            @Html.DisplayNameFor(model => model.BeastVariation[0].Name)
+                        </th>
+                    }
                     <th>
                         @Html.DisplayNameFor(model => model.BeastVariation[0].HitDice)
                     </th>
@@ -57,9 +59,12 @@
                 @foreach (var item in Model.BeastVariation)
                 {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
+                        @if (Model.ShowName)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                        }
                         <td>
                             @Html.DisplayFor(modelItem => item.HitDice)
                         </td>

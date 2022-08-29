@@ -9,9 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using ChernabogJailApp.Data;
 using ChernabogJailApp.Models;
 using ChernabogJailApp.Migrations;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ChernabogJailApp.Pages.RuleBook.Beasts.Variations
 {
+    [Authorize(Roles = "Admin, Editor")]
     public class EditModel : PageModel
     {
         private readonly ChernabogJailApp.Data.ChernabogJailAppContext _context;
@@ -38,7 +41,7 @@ namespace ChernabogJailApp.Pages.RuleBook.Beasts.Variations
                 return NotFound();
             }
             BeastVariation = beastvariation;
-            Beast = _context.Beast.Where(b => b.Id == id).FirstOrDefault();
+            Beast = _context.Beast.Where(b => b.Id == beastvariation.BeastId).FirstOrDefault();
             return Page();
         }
 
