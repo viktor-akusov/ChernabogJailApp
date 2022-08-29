@@ -11,7 +11,14 @@
     </h1>
     @if (Model.Beast.BeastCategory is not null)
     {
-        <h4 style="font-style: italic">@Html.DisplayFor(model => model.Beast.BeastCategory.Name)</h4>
+        <a data-bs-toggle="collapse" href="#collapseCategoryDescription" role="button" aria-expanded="false" aria-controls="collapseCategoryDescription">
+            <h4 style="font-style: italic">@Html.DisplayFor(model => model.Beast.BeastCategory.Name)</h4>
+        </a>
+        <div class="collapse" id="collapseCategoryDescription">
+          <div class="card card-body">
+            @Model.Beast.BeastCategory.Description
+          </div>
+        </div>
     }
     <hr />
         <table class="table table-hover">
